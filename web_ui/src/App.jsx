@@ -12,7 +12,8 @@ import {
     CheckCircle,
     File,
     Database,
-    Zap
+    Zap,
+    ExternalLink
 } from 'lucide-react';
 import { api } from './api';
 import { Card, Badge, ProgressBar, StatCard } from './components/UI';
@@ -310,7 +311,16 @@ export default function App() {
                                         <tr key={idx} className="hover:bg-slate-50 transition-colors">
                                             <td className="px-6 py-4 font-medium text-slate-900 flex items-center gap-3">
                                                 {activeTab === 'drive' ? <File className="w-4 h-4 text-slate-400" /> : <ImageIcon className="w-4 h-4 text-purple-400" />}
-                                                <span className="truncate max-w-xs">{file.name || file.filename}</span>
+                                                <a
+                                                    href={file.link || file.url || '#'}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="truncate max-w-xs hover:text-blue-600 hover:underline flex items-center gap-1 group/link"
+                                                    title="Open in Google Drive"
+                                                >
+                                                    {file.name || file.filename}
+                                                    <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" />
+                                                </a>
                                             </td>
                                             <td className="px-6 py-4 text-slate-500 truncate max-w-xs">{file.path || file.dimensions}</td>
                                             <td className="px-6 py-4"><Badge color="blue">{file.type || 'JPG'}</Badge></td>
@@ -346,7 +356,7 @@ export default function App() {
                                     <p className="text-slate-500">Your {activeTab === 'drive' ? 'drive' : 'library'} is clean!</p>
                                 </Card>
                             ) : (
-                                duplicates.map((group, idx) => (
+                                duplicates.slice(0, visibleItems).map((group, idx) => (
                                     <Card key={idx} className="p-4 border-l-4 border-l-amber-400">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-3">
@@ -368,9 +378,20 @@ export default function App() {
                                                         <span className="text-xs text-slate-400 font-mono">{group.size_fmt}</span>
                                                     </div>
                                                     <div className="flex items-center justify-between">
-                                                        <span className="text-xs text-slate-500 truncate max-w-md" title={file.path || file.dimensions}>
-                                                            {activeTab === 'drive' ? (file.path || 'Unknown Path') : (file.dimensions || 'Unknown Dimensions')}
-                                                        </span>
+                                                        <div className="flex items-center gap-2 truncate max-w-md">
+                                                            <span className="text-xs text-slate-500 truncate" title={file.path || file.dimensions}>
+                                                                {activeTab === 'drive' ? (file.path || 'Unknown Path') : (file.dimensions || 'Unknown Dimensions')}
+                                                            </span>
+                                                            <a
+                                                                href={file.link || file.url || '#'}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-slate-400 hover:text-blue-600 transition-colors"
+                                                                title="Open in Google Drive"
+                                                            >
+                                                                <ExternalLink className="w-3 h-3" />
+                                                            </a>
+                                                        </div>
                                                         <span className="text-xs text-slate-400">
                                                             {new Date(file.modified || file.created).toLocaleDateString()}
                                                         </span>
@@ -380,6 +401,16 @@ export default function App() {
                                         </div>
                                     </Card>
                                 ))
+                            )}
+                            {duplicates.length > 0 && visibleItems < duplicates.length && (
+                                <div className="text-center pt-4">
+                                    <button
+                                        onClick={() => setVisibleItems(prev => prev + 5)}
+                                        className="px-6 py-2 bg-white border border-slate-300 text-slate-600 font-medium rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm"
+                                    >
+                                        Load {Math.min(5, duplicates.length - visibleItems)} more groups...
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>

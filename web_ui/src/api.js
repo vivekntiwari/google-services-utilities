@@ -84,7 +84,7 @@ export const api = {
             return await response.json();
         } catch (error) {
             console.warn('Using mock Drive duplicates:', error.message);
-            return generateMockDuplicates(5, 'file');
+            return generateMockDuplicates(20, 'file');
         }
     },
 
@@ -106,7 +106,7 @@ export const api = {
             return await response.json();
         } catch (error) {
             console.warn('Using mock Photos duplicates:', error.message);
-            return generateMockDuplicates(5, 'photo');
+            return generateMockDuplicates(20, 'photo');
         }
     }
 };
