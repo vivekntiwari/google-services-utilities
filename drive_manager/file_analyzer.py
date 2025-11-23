@@ -7,7 +7,15 @@ Separated into data fetching and analysis for caching support.
 
 from typing import List, Dict, Tuple, Optional
 from collections import defaultdict
-from data_cache import DataCache
+import sys
+import os
+
+# Handle imports based on how the module is being used
+if __name__ == '__main__' or 'drive_manager' not in sys.modules:
+    from data_cache import DataCache
+else:
+    from drive_manager.data_cache import DataCache
+
 
 
 class FileAnalyzer:

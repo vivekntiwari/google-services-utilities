@@ -1,11 +1,21 @@
 """
-Photos Cache Module
+Google Photos Cache Module
 
-Handles caching of Google Photos metadata to avoid repeated API calls.
-Reuses DataCache class from data_cache.py with a different cache file.
+Extends DataCache for Google Photos metadata caching.
 """
 
-from data_cache import DataCache
+import sys
+
+# Handle imports based on how the module is being used
+if __name__ == '__main__' or 'photos_manager' not in sys.modules:
+    # Running standalone or from within photos_manager directory
+    import os
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'drive_manager'))
+    from data_cache import DataCache
+else:
+    # Being imported as part of photos_manager package
+    from drive_manager.data_cache import DataCache
 
 
 class PhotosCache(DataCache):

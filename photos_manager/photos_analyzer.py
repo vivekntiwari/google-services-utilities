@@ -7,7 +7,15 @@ Similar to FileAnalyzer but adapted for Google Photos API.
 
 from typing import List, Dict, Optional
 from collections import defaultdict
-from photos_cache import PhotosCache
+import sys
+import os
+
+# Handle imports based on how the module is being used
+if __name__ == '__main__' or 'photos_manager' not in sys.modules:
+    from photos_cache import PhotosCache
+else:
+    from photos_manager.photos_cache import PhotosCache
+
 
 
 class PhotosAnalyzer:
