@@ -27,6 +27,7 @@ export default function App() {
     const [toastMsg, setToastMsg] = useState('');
     const [stats, setStats] = useState(null);
     const [largestFiles, setLargestFiles] = useState([]);
+    const [visibleItems, setVisibleItems] = useState(10);
     const [duplicates, setDuplicates] = useState([]);
 
     useEffect(() => {
@@ -42,7 +43,9 @@ export default function App() {
         if (isScanning) return;
         setIsScanning(true);
         setScanProgress(0);
+        setScanProgress(0);
         setScanResult(null);
+        setVisibleItems(10);
 
         let progress = 0;
         const interval = setInterval(() => {
@@ -129,7 +132,7 @@ export default function App() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex space-x-8 -mb-px">
                         <button
-                            onClick={() => { setActiveTab('drive'); setScanResult(null); }}
+                            onClick={() => { setActiveTab('drive'); setScanResult(null); setVisibleItems(10); }}
                             className={`group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-all ${activeTab === 'drive' ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'
                                 }`}
                         >
@@ -137,7 +140,7 @@ export default function App() {
                             Google Drive
                         </button>
                         <button
-                            onClick={() => { setActiveTab('photos'); setScanResult(null); }}
+                            onClick={() => { setActiveTab('photos'); setScanResult(null); setVisibleItems(10); }}
                             className={`group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm transition-all ${activeTab === 'photos' ? 'border-pink-500 text-pink-600' : 'border-transparent text-slate-500 hover:text-slate-700'
                                 }`}
                         >
@@ -303,7 +306,7 @@ export default function App() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
-                                    {largestFiles.slice(0, 10).map((file, idx) => (
+                                    {largestFiles.slice(0, visibleItems).map((file, idx) => (
                                         <tr key={idx} className="hover:bg-slate-50 transition-colors">
                                             <td className="px-6 py-4 font-medium text-slate-900 flex items-center gap-3">
                                                 {activeTab === 'drive' ? <File className="w-4 h-4 text-slate-400" /> : <ImageIcon className="w-4 h-4 text-purple-400" />}
@@ -316,6 +319,16 @@ export default function App() {
                                     ))}
                                 </tbody>
                             </table>
+                            {visibleItems < largestFiles.length && (
+                                <div className="p-4 bg-slate-50 border-t border-slate-200 text-center">
+                                    <button
+                                        onClick={() => setVisibleItems(prev => prev + 10)}
+                                        className="text-sm text-slate-500 font-medium hover:text-slate-800"
+                                    >
+                                        Load {Math.min(10, largestFiles.length - visibleItems)} more items...
+                                    </button>
+                                </div>
+                            )}
                         </Card>
                     </div>
                 )}
