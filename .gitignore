@@ -1,0 +1,88 @@
+# ============================================
+# PERSONAL DATA - DO NOT COMMIT
+# ============================================
+
+# Google Drive API credentials and tokens
+drive_manager/credentials.json
+drive_manager/token.json
+drive_manager/drive_cache.json
+
+# Google Photos API credentials and tokens
+photos_manager/photos_credentials.json
+photos_manager/photos_token.json
+photos_manager/photos_cache.json
+
+# All export files (contain personal file listings)
+drive_manager/*.csv
+drive_manager/*.json
+photos_manager/*.csv
+photos_manager/*.json
+
+# Exclude JSON/CSV files but allow requirements.txt
+*.csv
+*.json
+!requirements.json
+!package.json
+!tsconfig.json
+
+# Test files (may contain personal data)
+drive_manager/test_*.py
+photos_manager/test_*.py
+test_*.py
+
+# Temporary/test files
+hello.py
+
+# Old files (if any remain in root)
+credentials.json
+token.json
+drive_cache.json
+photos_credentials.json
+photos_token.json
+photos_cache.json
+
+# ============================================
+# DEVELOPMENT FILES
+# ============================================
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
