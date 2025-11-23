@@ -355,10 +355,28 @@ export default function App() {
                                                 </div>
                                                 <div>
                                                     <h4 className="font-bold text-slate-800">{group.name}</h4>
-                                                    <p className="text-xs text-slate-500">{group.count} copies found</p>
+                                                    <p className="text-xs text-slate-500">{group.count} copies found • Total: {group.size_fmt}</p>
                                                 </div>
                                             </div>
                                             <Badge color="red">Duplicate</Badge>
+                                        </div>
+                                        <div className="bg-slate-50 rounded border border-slate-100 divide-y divide-slate-100 mt-3">
+                                            {group.files?.map((file, fileIdx) => (
+                                                <div key={fileIdx} className="p-3 hover:bg-white transition-colors">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <span className="text-sm font-medium text-slate-700 truncate">{group.name}</span>
+                                                        <span className="text-xs text-slate-400 font-mono">{group.size_fmt}</span>
+                                                    </div>
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-xs text-slate-500 truncate max-w-md" title={file.path || file.dimensions}>
+                                                            {activeTab === 'drive' ? (file.path || 'Unknown Path') : (file.dimensions || 'Unknown Dimensions')}
+                                                        </span>
+                                                        <span className="text-xs text-slate-400">
+                                                            {new Date(file.modified || file.created).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </Card>
                                 ))
